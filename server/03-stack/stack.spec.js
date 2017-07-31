@@ -49,20 +49,16 @@ describe.only('the stack spec', () => {
   });
 
   it('overflows : stack max = 3', () => {
+    const doOverflow = () => {stack.push();};
     stack.push();
     stack.push();
     stack.push();
-    (() => {
-      stack.push();
-    }).should.throw('Stack cannot exceed size of 3');
+    doOverflow.should.throw('Stack cannot exceed size of 3');
   });
 
   it('under-flows : stack min = 0', () => {
-    stack.push();
-    stack.pop();
-    (() => {
-      stack.pop();
-    }).should.throw('Stack cannot be less than 0');
+    const doUnderflow = () => {stack.pop();};
+    doUnderflow.should.throw('Stack cannot be less than 0');
   });
 
   it('pops the same one pushed');
