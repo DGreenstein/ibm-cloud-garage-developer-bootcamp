@@ -7,7 +7,10 @@ const makeStack = () => {
       if (stackSize === 3) throw new Error('Stack cannot exceed size of 3');
       stackSize++;
     },
-    pop: () => { stackSize--; }
+    pop: () => {
+      if (stackSize === 0) throw new Error('Stack cannot be less than 0');
+      stackSize--;
+    }
   };
 };
 
@@ -45,7 +48,7 @@ describe.only('the stack spec', () => {
     stack.size().should.equal(0);
   });
 
-  it('overflows stack max = 3', () => {
+  it('overflows : stack max = 3', () => {
     stack.push();
     stack.push();
     stack.push();
@@ -54,7 +57,14 @@ describe.only('the stack spec', () => {
     }).should.throw('Stack cannot exceed size of 3');
   });
 
-  it('under-flows');
+  it('under-flows : stack min = 0', () => {
+    stack.push();
+    stack.pop();
+    (() => {
+      stack.pop();
+    }).should.throw('Stack cannot be less than 0');
+  });
+
   it('pops the same one pushed');
   it('pops the same two pushed');
   it('accepts only positive capacity');
