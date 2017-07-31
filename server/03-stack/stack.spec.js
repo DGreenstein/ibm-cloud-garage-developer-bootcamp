@@ -1,22 +1,24 @@
-const makeStack = () => {
+const makeStack = (capacity = 2) => {
+  if (capacity <= 0) throw new Error('Stack size must be set to a positive integer.');
   const stackValues = [];
   return {
     isEmpty: () => stackValues.length === 0,
     size: () => stackValues.length,
     push: (pushVal) => {
-      if (stackValues.length === 3) throw new Error('Stack cannot exceed size of 3');
+      if (stackValues.length === capacity) throw new Error('Stack cannot exceed size of ' + capacity);
       stackValues.push(pushVal);
     },
     pop: () => {
       if (stackValues.length === 0) throw new Error('Stack cannot be less than 0');
       return stackValues.pop();
-    }
+    },
+    capacity
   };
 };
 
 let stack;
 
-describe.only('the stack spec', () => {
+describe('the stack spec', () => {
   beforeEach(() => {stack = makeStack();});
   it('starts empty', () => {
     stack.isEmpty().should.be.true();
@@ -48,7 +50,8 @@ describe.only('the stack spec', () => {
     stack.size().should.equal(0);
   });
 
-  it('overflows : stack max = 3', () => {
+  it('prevent overflow', () => {
+    stack = makeStack(3);
     const doOverflow = () => {stack.push();};
     stack.push();
     stack.push();
@@ -56,7 +59,7 @@ describe.only('the stack spec', () => {
     doOverflow.should.throw('Stack cannot exceed size of 3');
   });
 
-  it('under-flows : stack min = 0', () => {
+  it('prevent underflow', () => {
     const doUnderflow = () => {stack.pop();};
     doUnderflow.should.throw('Stack cannot be less than 0');
   });
@@ -72,5 +75,8 @@ describe.only('the stack spec', () => {
     stack.pop().should.equal('blue');
   });
 
-  it('accepts only positive capacity', () => {});
+  it('accepts only positive capacity', () => {
+    const doSetCapacity = () => {makeStack(-4);};
+    doSetCapacity.should.throw('Stack size must be set to a positive integer.');
+  });
 });
