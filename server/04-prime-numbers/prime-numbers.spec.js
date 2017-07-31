@@ -1,5 +1,11 @@
-describe.only('the prime numbers canary spec', () => {
-  it('return [none] for 1');
+const primeFactorsOf = () => {
+  return [];
+};
+
+describe.only('prime factors', () => {
+  it('return [none] for 1', () => {
+    primeFactorsOf(1).should.deepEqual([]);
+  });
   it('return [2] for 2');
   it('return [3] for 3');
   it('return [2, 2] for 4');
