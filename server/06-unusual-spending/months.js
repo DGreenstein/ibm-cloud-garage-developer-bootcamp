@@ -7,7 +7,6 @@ const current = (today = new Date()) => {
 };
 
 const prior = (today = new Date()) => {
-
   let month = (today.getMonth() + 1);
   let year = today.getYear() + 1900;
   if (month === 1) {
